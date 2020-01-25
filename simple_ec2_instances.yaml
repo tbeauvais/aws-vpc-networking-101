@@ -1,0 +1,85 @@
+Description:  Cloudformation template for creating EC2 instances in a private and public subnet.
+
+Parameters:
+  EnvironmentName:
+    Description: An environment name that is prefixed to resource names
+    Type: String
+    Default: dev
+  VpcStackName:
+    Description: Name of the Stack that was used to create the VPC. The Stack outputs contains the VPC, SecurityGroup, and Subnet information.
+    Type: String
+    Default: simple-vpc
+
+Resources:
+
+  PublicEc2Role:
+      Type: AWS::IAM::Role
+      Properties:
+        Path: "/"
+        ManagedPolicyArns:
+          - "arn:aws:iam::aws:policy/AmazonSSMManagedInstanceCore"
+        AssumeRolePolicyDocument:
+          Version: '2012-10-17'
+          Statement:
+          - Effect: Allow
+            Principal:
+              Service:
+              - ec2.amazonaws.com
+            Action:
+            - sts:AssumeRole
+
+  PublicInstanceProfile:
+      Type: AWS::IAM::InstanceProfile
+      Properties:
+        Path: "/"
+        Roles:
+        - !Ref PublicEc2Role
+
+  PublicEc2:
+    Type: AWS::EC2::Instance
+    Properties:
+      InstanceType: t2.micro
+      ImageId: ami-062f7200baf2fa504
+      IamInstanceProfile: !Ref PublicInstanceProfile
+      NetworkInterfaces:
+      - GroupSet:
+        - Fn::ImportValue:
+            Fn::Sub: "${VpcStackName}-PublicSecurityGroupID"
+        AssociatePublicIpAddress: true
+        DeviceIndex: '0'
+        DeleteOnTermination: true
+        SubnetId:
+          Fn::ImportValue:
+            Fn::Sub: "${VpcStackName}-PublicSubnetID"
+      UserData:
+        Fn::Base64:
+          !Sub |
+            #!/bin/bash -xe
+            yum update -y
+            yum install httpd -y
+            service httpd start
+            echo "<html><h1>Public Instance</h1></html>" > /var/www/html/index.html
+
+  PrivateEc2:
+    Type: AWS::EC2::Instance
+    Properties:
+      InstanceType: t2.micro
+      ImageId: ami-062f7200baf2fa504
+      NetworkInterfaces:
+      - GroupSet:
+        - Fn::ImportValue:
+            Fn::Sub: "${VpcStackName}-PrivateSecurityGroupID"
+        AssociatePublicIpAddress: false
+        DeviceIndex: '0'
+        DeleteOnTermination: true
+        SubnetId:
+          Fn::ImportValue:
+            Fn::Sub: "${VpcStackName}-PrivateSubnetID"
+      UserData:
+        Fn::Base64:
+          !Sub |
+            #!/bin/bash -xe
+            yum update -y
+            yum install httpd -y
+            service httpd start
+            echo "Private Instance" > /var/www/html/index.html
