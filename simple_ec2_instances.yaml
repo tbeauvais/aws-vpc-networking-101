@@ -59,6 +59,9 @@ Resources:
             yum install httpd -y
             service httpd start
             echo "<html><h1>Public Instance</h1></html>" > /var/www/html/index.html
+      Tags:
+        - Key: Name
+          Value: !Sub ${EnvironmentName} Public EC2
 
   PrivateEc2:
     Type: AWS::EC2::Instance
@@ -83,3 +86,8 @@ Resources:
             yum install httpd -y
             service httpd start
             echo "Private Instance" > /var/www/html/index.html
+      Tags:
+        - Key: Name
+          Value: !Sub ${EnvironmentName} Private EC2
+
+
