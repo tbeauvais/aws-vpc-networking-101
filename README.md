@@ -7,6 +7,9 @@ In this example, we will create a VPC with two subnets. One subset will be priva
 
 
 ## VPC Details
+When creating a VPC, one of the first things you will need to decide is the private IP address range. The private IP address range is specified using CIDR notation (Classless Inter-Domain Routing). For example, in this exercise, we will be using 10.0.0.0/16, which gives us 65,536 total addresses (-5 reserved by AWS) gives us 65,531 available IP addresses in our VPC. This VPC IP range will then be subdivided amongst each of the subnets.
+
+
 ![aws details](doc/aws_vpc_simple_network.jpeg)
 
 - VPC - Amazon Virtual Private Cloud (VPC) is a virtual network that you define in AWS to run your AWS resources such as EC2 instances.
