@@ -13,21 +13,27 @@ When creating a VPC, one of the first things you will need to decide is the priv
 
 Note - If you are unfamiliar with subnetting, I suggest you go through the [Subnetting Demystified](https://www.youtube.com/watch?v=cdNsiz12aCY) video series. 
 
-The subnet will futher divide the VPC address ranges to create smaller networks that can be individually managed. As mentioned previously we will be creating two subnets within the VPC. Again we will need to use CIDR notation to specifiy the subnet ranges. These ranges must be withing the VPC 10.0.0.0/16 range. The fist subnet will use 10.0.0.0/24, which gives us 256 addresses with a range of 10.0.0.0-10.0.0.255. The second subnet will use 10.0.1.0/24, which also gives us 256 addresses with a range of 10.0.1.0 - 10.0.1.255. The 256 addresses in each subnet are reduced by five due to AWS reserved addresses. The subnet address ranges cannot overlap within the VPC.   
+The subnet will futher divide the VPC address ranges to create smaller networks that can be individually managed. As mentioned previously we will be creating two subnets within the VPC. Again we will need to use CIDR notation to specifiy the subnet ranges. These ranges must be withing the VPC 10.0.0.0/16 range. The fist subnet will use 10.0.0.0/24, which gives us 256 addresses with a range of 10.0.0.0-10.0.0.255. The second subnet will use 10.0.1.0/24, which also gives us 256 addresses with a range of 10.0.1.0 - 10.0.1.255. The 256 addresses in each subnet are reduced by five due to AWS reserved addresses. The subnet address ranges cannot overlap within the VPC. 
+
+We will be deploying the VPC usign a set of CloudFormation templates that are provided in this repo.  
 ![aws subnets](doc/aws_subnets.jpeg)
 
 ### Securing the Network and Resources
+AWS provides several layers to protect your network and its resources. In this simple VPC example, we will be using the following components listed here. 
+
+- Route Tables - A routing table contains a set of rules that direct network traffic from your subnet or gateway. This VPC example uses two routing tables for the public and private subnets.
+  - The public routing table allows traffic to flow to the public subnet from the AWS Internet Gateway. This will allow internet traffic to flow to the HTTP Apache server on the EC2 instance.  
+  - The private routing table allows resources in the private subnet to make outbound internet request through the AWS NAT Gateway. In this example we use this to install the HTTP Apache server onto the EC2.    
+- Security Group - Security Groups act as firewalls for resources in a subnet where you can define inbound and outbound network traffic rules (e.g. HTTP over port 80). This VPC example uses two security groups for the public and private subnets.
+  - The public security group allows inbound/outbound HTTP traffic over port 80 where the source is 0.0.0.0/0 (i.e. the internet). This example uses the AWS Session Manager to connect to the public EC2 instance so the security group also allows HTTPS traffic on port 443.
+  - The private security group allows inbound HTTP traffic over port 80 but only from resources (EC2) within the public security group.   
+- Network ACL -
+- Internet Gateway -
+- NAT Gateway -
 
 
 ### VPC Resources
 
-- VPC - Amazon Virtual Private Cloud (VPC) is a virtual network that you define in AWS to run your AWS resources such as EC2 instances.
-- Subnet - A subnet allows you to divide up a range of IP addresses within your VPC
-- Route Tables - A routing table contains a set of rules that direct network traffic from your subnet or gateway.
-- Security Group -
-- Network ACL -
-- Internet Gateway -
-- NAT Gateway -
 
 
 ![aws details](doc/aws_vpc_simple_network.jpeg)
