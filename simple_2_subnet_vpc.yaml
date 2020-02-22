@@ -61,7 +61,7 @@ Resources:
     Type: AWS::EC2::Subnet
     Properties:
       VpcId: !Ref SimpleVPC
-      AvailabilityZone: !Select [ 0, !GetAZs  '' ]
+      AvailabilityZone: !Select [ 1, !GetAZs  '' ]
       CidrBlock: !Ref PrivateSubnetCIDR
       MapPublicIpOnLaunch: false
       Tags:
