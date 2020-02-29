@@ -19,7 +19,7 @@ We will be deploying the VPC usign a set of CloudFormation templates that are pr
 ![aws subnets](doc/aws_subnets.jpeg)
 
 ### Securing the Network and Resources
-AWS provides several layers to protect your network and its resources. In this simple VPC example, we will be using the following components listed here. 
+AWS provides several layers to protect your network and its resources. In this simple VPC example, we will be using the following components listed here. These resources are also shown on the VPC Diagram below.
 
 - Route Tables - A routing table contains a set of rules that direct network traffic from your subnet or gateway. This VPC example uses two routing tables for the public and private subnets.
   - The public routing table allows traffic to flow to the public subnet from the AWS Internet Gateway. This will allow internet traffic to flow to the HTTP Apache server on the EC2 instance.  
@@ -32,8 +32,7 @@ AWS provides several layers to protect your network and its resources. In this s
 - NAT Gateway -
 
 
-### VPC Resources
-
+### VPC Diagram
 
 
 ![aws details](doc/aws_vpc_simple_network.jpeg)
@@ -42,7 +41,12 @@ AWS provides several layers to protect your network and its resources. In this s
 ## Creating the VPC Network
 
 
+## Creating the EC2 Instances
+
+
 ## Cleaning up the VPC Network
+
+
 
 ## Resources
 https://docs.aws.amazon.com/vpc/latest/userguide/what-is-amazon-vpc.html
