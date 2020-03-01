@@ -42,6 +42,16 @@ AWS provides several layers to protect your network and its resources. In this s
 
 
 ## Creating the EC2 Instances
+To create the EC2 instances used in the sample you can run the provided simple_ec2_instances.yaml CloudFormation template.
+**WARNING** - Creating AWS charges will be incurred when running EC2 instances in your account. Please check the AWS pricing and be sure to remove the instances when complete.
+
+The following is an example for creating the cloudformation stack using the AWS cli tool. The CAPABILITY_IAM capability is required since this stack creates a IAM role.
+```
+$ aws cloudformation create-stack --stack-name simple-ec2 --template-body file://simple_ec2_instances.yaml --capabilities CAPABILITY_IAM --profile cloudformation
+
+```
+
+You may also create the stack usign the AWS Console
 
 
 ## Cleaning up the VPC Network
