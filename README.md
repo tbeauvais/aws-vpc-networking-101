@@ -27,9 +27,9 @@ AWS provides several layers to protect your network and its resources. In this s
 - Security Group - Security Groups act as firewalls for resources in a subnet where you can define inbound and outbound network traffic rules (e.g. HTTP over port 80). This VPC example uses two security groups for the public and private subnets.
   - The public security group allows inbound/outbound HTTP traffic over port 80 where the source is 0.0.0.0/0 (i.e. the internet). This example uses the AWS Session Manager to connect to the public EC2 instance so the security group also allows HTTPS traffic on port 443.
   - The private security group allows inbound HTTP traffic over port 80 but only from resources (EC2) within the public security group.   
-- Network ACL -
-- Internet Gateway -
-- NAT Gateway -
+- Network ACL - In this sample VPC the Network ACL are using their default values. They can be used to provide and extra layer of security for controlling traffic in and out of your subnet.
+- Internet Gateway - This sample uses Internet Gateway to allow inbound and outbound internet traffic to/from the public subnet, and outbound traffic from the private subnet(only through NAT gateway).
+- NAT Gateway - This sample VPC is using the NAT Gateway to allow the EC2 instance in the private subnet to connect to the internet, but does not allow external internet resources to connect to the EC2 instance. 
 
 
 ### VPC Diagram
@@ -39,13 +39,22 @@ AWS provides several layers to protect your network and its resources. In this s
 
 
 ## Creating the VPC Network
+To create the VPC  used in the sample you can run the provided simple_2_subnet_vpc.yaml CloudFormation template.
+
+The following is an example for creating the cloudformation stack using the AWS cli tool. The ```--profile <profile name>``` is optional and allows you to use a specific role when running the aws cli commands. See the [Using an IAM Role in the AWS CLI](https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-role.html) documentation for more information.
+```
+aws cloudformation create-stack --stack-name simple-vpc --template-body file://simple_2_subnet_vpc.yaml --profile cloudformation
+```
+
+You may also create the stack usign the AWS Console
 
 
 ## Creating the EC2 Instances
-To create the EC2 instances used in the sample you can run the provided simple_ec2_instances.yaml CloudFormation template.
-**WARNING** - Creating AWS charges will be incurred when running EC2 instances in your account. Please check the AWS pricing and be sure to remove the instances when complete.
+To create the EC2 instances used in the sample you can create a stack using the provided simple_ec2_instances.yaml CloudFormation template.
 
-The following is an example for creating the cloudformation stack using the AWS cli tool. The CAPABILITY_IAM capability is required since this stack creates a IAM role.
+**WARNING** - AWS charges will be incurred when running EC2 instances in your account. Please check the AWS pricing and be sure to remove the instances when complete.
+
+The following is an example for creating the cloudformation stack using the AWS cli tool. The CAPABILITY_IAM capability is required since this stack creates a IAM role. The ```--profile <profile name>``` is optional.
 ```
 $ aws cloudformation create-stack --stack-name simple-ec2 --template-body file://simple_ec2_instances.yaml --capabilities CAPABILITY_IAM --profile cloudformation
 
@@ -60,4 +69,6 @@ You may also create the stack usign the AWS Console
 
 ## Resources
 https://docs.aws.amazon.com/vpc/latest/userguide/what-is-amazon-vpc.html
+https://docs.aws.amazon.com/vpc/latest/userguide/VPC_Security.html
 https://docs.aws.amazon.com/vpc/latest/userguide/vpc-network-acls.html
+https://docs.aws.amazon.com/vpc/latest/userguide/vpc-nat-gateway.html
