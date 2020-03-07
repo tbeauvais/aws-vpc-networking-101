@@ -18,7 +18,7 @@ The subnet will further divide the VPC address ranges to create smaller networks
 We will be deploying the VPC using a set of CloudFormation templates that are provided in this repo.  
 ![aws subnets](doc/aws_subnets.jpeg)
 
-### Securing the Network and Resources
+### Network Resources
 AWS provides several layers to protect your network and its resources. In this simple VPC example, we will be using the following components listed here. These resources are also shown on the VPC Diagram below.
 
 - Route Tables - A routing table contains a set of rules that direct network traffic from your subnet or gateway. This VPC example, uses two routing tables for the public and private subnets.
@@ -66,6 +66,10 @@ $ aws cloudformation create-stack --stack-name simple-ec2 --template-body file:/
 ```
 
 You may also create the stack using the CloudFormation services in the AWS Console. The steps are the same as creating a stack for the VPC, with the exception of the stack name.
+
+## Verifing the Public and Private Instances 
+
+![](doc/public_instance.gif)
 
 
 ## Cleaning up the VPC Network
