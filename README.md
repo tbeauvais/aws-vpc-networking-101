@@ -46,8 +46,9 @@ The following is an example for creating the cloudformation stack using the AWS 
 aws cloudformation create-stack --stack-name simple-vpc --template-body file://simple_2_subnet_vpc.yaml --profile cloudformation
 ```
 
-You may also create the stack usign the AWS Console
+You may also create the stack usign the CloudFormation services in the AWS Console.
 
+![vpc stack](doc/vpc_stack.png)
 
 ## Creating the EC2 Instances
 To create the EC2 instances used in the sample you can create a stack using the provided simple_ec2_instances.yaml CloudFormation template.
