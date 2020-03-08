@@ -69,7 +69,12 @@ You may also create the stack using the CloudFormation services in the AWS Conso
 
 ## Verifing the Public and Private Instances 
 
+To verify the public instance, you will point your Browser at the public DNS name given to the public EC2. The EC2 is running a simple Apache server with a index.hml containing the text "Public Instance" which will be sent back to your Browser.
 ![](doc/public_instance.gif)
+
+
+To verify the private instance, we will use the AWS Session Manager to ssh into the public EC2 instance which is granted access to the private EC2 through the Security Group. The private EC2 is running a simple Apache server with a index.hml containing the text "Private Instance" which will be sent back when you curl the private DNS of the EC2.
+![](doc/private_instance.gif)
 
 
 ## Cleaning up the VPC Network
