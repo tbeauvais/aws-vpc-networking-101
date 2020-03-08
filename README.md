@@ -2,7 +2,7 @@
 This repo will walk you through setting up a fully functional and reasonably simple AWS VPC. I have tried to make it as complete as possible without making it overly complicated.
 
 ## Overview
-In this example, we will create a VPC with two subnets. One subset will be private and one public. The scenario I'm trying to simulate is a network with internal (non-public), and external facing services. These services can range from micro-services to a backend datastore. To keep the example as simple as possible, we will be simulating the services using two Apache HTTP web servers.  For example, a request from the public internet is allowed over HTTP port 80 to the Apache server in the public subnet, and the public server is permitted to access the Apache server in the private subnet. 
+In this example, we will create a VPC with two subnets. One subset will be private and one public. The scenario I'm trying to simulate is a network with internal (non-public), and external facing services. These services can range from micro-services to a backend datastore. To keep the example as simple as possible, we will be simulating the services using two Apache HTTP web servers.  For example, a request from the public internet is allowed over HTTP port 80 to the Apache server in the public subnet, and the public server is permitted to access the Apache server in the private subnet. However, public internet access is not allowed for inbound traffic to the private subnet.
 ![aws overview](doc/aws_network_overview.jpeg)
 
 
@@ -69,10 +69,11 @@ You may also create the stack using the CloudFormation services in the AWS Conso
 
 ## Verifing the Public and Private Instances 
 
+### Public Instance
 To verify the public instance, you will point your Browser at the public DNS name given to the public EC2. The EC2 is running a simple Apache server with a index.hml containing the text "Public Instance" which will be sent back to your Browser.
 ![](doc/public_instance.gif)
 
-
+### Private Instance
 To verify the private instance, we will use the AWS Session Manager to ssh into the public EC2 instance which is granted access to the private EC2 through the Security Group. The private EC2 is running a simple Apache server with a index.hml containing the text "Private Instance" which will be sent back when you curl the private DNS of the EC2.
 ![](doc/private_instance.gif)
 
